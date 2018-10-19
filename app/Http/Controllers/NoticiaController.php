@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 
-class ControllerNoticia extends Controller {
+class NoticiaController extends Controller {
 	public function listaNoticias(){
 
 		$noticias = DB::select('select * from tbl_noticia');

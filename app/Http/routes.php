@@ -22,4 +22,4 @@ Route::controllers([
 ]);
  */
 
-Route::get('/', 'ControllerNoticia@listaNoticias');
+Route::get('/', 'NoticiaController@listaNoticias');
