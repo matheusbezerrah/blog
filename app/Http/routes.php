@@ -11,7 +11,7 @@
 |
 */
 
-/*
+
 Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
@@ -20,8 +20,12 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
- */
+
 
 Route::get('/feed', 'NoticiaController@listaFeedNoticias');
 
-Route::get('/feed/noticia', 'NoticiaController@findNoticia');
+Route::get('/feed/noticia/{id}', 'NoticiaController@findNoticia');
+
+Route::get('/noticia/novo', 'NoticiaController@novaNoticia');
+
+Route::post('/noticia/adiciona', 'NoticiaController@adicionaNoticia');
