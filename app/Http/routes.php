@@ -22,4 +22,6 @@ Route::controllers([
 ]);
  */
 
-Route::get('/', 'NoticiaController@listaNoticias');
+Route::get('/feed', 'NoticiaController@listaFeedNoticias');
+
+Route::get('/feed/noticia', 'NoticiaController@findNoticia');
