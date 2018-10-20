@@ -7,6 +7,7 @@ class NoticiaController extends Controller {
 	public function listaFeedNoticias(){
 
 		$noticias = DB::select('select * from tbl_noticia');
+
 		return view('feed')->with('noticias',$noticias);
 	}
 
@@ -35,7 +36,8 @@ class NoticiaController extends Controller {
 		DB::insert('insert into tbl_noticia (titulo, conteudo, id_categoria, id_autor, palavras_chave) 
 						values (?, ?, ?, ?, ?)', [$titulo,$conteudo,$categoria,$autor,$palavrasChave]);
 
-		
-		return view('adiciona');
+		return redirect()
+				->action('NoticiaController@listaFeedNoticias')
+				->withInput(REQUEST::only('titulo'));
 	}
 }

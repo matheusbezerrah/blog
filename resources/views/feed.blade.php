@@ -2,6 +2,11 @@
 
 @section('conteudo')
 	<h1>Feed de Notícias</h1>
+	@if(old('titulo'))
+	<div class="alert alert-success">
+		A notícia foi inserida com sucesso!
+	</div>
+	@endif
 	@foreach ($noticias as $n)
 	<table class="table-bordered table-hover" style="margin-top: 30px;">
 		<tr><th align="left">TÍTULO</th></tr>
