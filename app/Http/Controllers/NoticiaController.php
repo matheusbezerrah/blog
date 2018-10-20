@@ -2,42 +2,85 @@
 
 use Illuminate\Support\Facades\DB;
 use Request;
+use blog\Noticia;
+use blog\Autor;
+use blog\Categoria;
+use blog\Http\Requests\NoticiaRequest;
 
 class NoticiaController extends Controller {
+
 	public function listaFeedNoticias(){
 
-		$noticias = DB::select('select * from tbl_noticia');
-
-		return view('feed')->with('noticias',$noticias);
+		$noticias = Noticia::all();
+		
+		return view('feed')->with('noticias', $noticias);
 	}
 
-	public function findNoticia(){
-		$id = Request::route('id');
-		$noticia = DB::select('select * from tbl_noticia where id = ?', [$id]);
-
+	public function findNoticia($id){
+		$noticia = Noticia::find($id);
+ 
 		if(empty($noticia)){
-			return 'Esta notícia não está cadastrada. Favor, comunique o administrador.';
+			return 'Esta notícia não está cadastrada ou a URL é inválida. 
+					<br> Favor, comunique o administrador.';
 		}
 
-		return view('noticia')->with('noticia', $noticia[0]);
+		return view('noticia')->with('noticia', $noticia);
 	}
 
 	public function novaNoticia(){
-		return view('formNoticia');
+
+		return view('formNoticia')->with(['autores'=>Autor::all(), 'categorias'=>Categoria::all()]);
 	}
 
-	public function adicionaNoticia(){
-		$titulo = Request::input('titulo');
-		$conteudo = Request::input('conteudo');
-		$categoria = Request::input('categoria');
-		$autor = Request::input('autor');
-		$palavrasChave = Request::input('palavras-chave');
+	public function adicionaNoticia(NoticiaRequest $request){
 
-		DB::insert('insert into tbl_noticia (titulo, conteudo, id_categoria, id_autor, palavras_chave) 
-						values (?, ?, ?, ?, ?)', [$titulo,$conteudo,$categoria,$autor,$palavrasChave]);
+		$parametros = $request->all();
+		$noticia = new Noticia($parametros);
+
+		$noticia->save();	
 
 		return redirect()
-				->action('NoticiaController@listaFeedNoticias')
+				->action('NoticiaController@administrarNoticias')
 				->withInput(REQUEST::only('titulo'));
+	}
+
+	public function atualizaNoticia($id){
+
+		$noticia = Noticia::find($id);
+
+		return view('formNoticiaEdit')->with(['autores'=>Autor::all(), 'categorias'=>Categoria::all(), 'noticia'=>$noticia]);
+	}
+
+	public function atualizaFormNoticia(NoticiaRequest $request){
+
+		$id = $request->input('id');
+		$noticia = Noticia::find($id);
+
+		$noticia->titulo = $request->input('titulo');
+		$noticia->conteudo = $request->input('conteudo');
+		$noticia->categoria_id = $request->input('categoria_id');
+		$noticia->autor_id = $request->input('autor_id');
+		$noticia->palavras_chave = $request->input('palavras_chave');
+
+		$noticia->save();
+
+		return redirect()->action('NoticiaController@administrarNoticias');
+	}
+
+	public function removeNoticia($id){
+
+		$noticia = Noticia::find($id);
+
+		if(empty($noticia)){
+			return 'Registro não existe!';
+		}
+
+		$noticia->delete();
+
+		return redirect()->action('NoticiaController@administrarNoticias');
+	}
+
+	public function administrarNoticias(){
+		return view('administrador')->with('noticias',Noticia::all());
 	}
 }

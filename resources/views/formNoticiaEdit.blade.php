@@ -13,24 +13,25 @@
 </div>
 @endif
 
-<form action="{{action('NoticiaController@adicionaNoticia')}}" method="post">
+<form action="{{action('NoticiaController@atualizaFormNoticia')}}" method="post">
 
 	<input type="hidden" name="_token" value="{{{csrf_token()}}}">
+	<input type="hidden" name="id" value="{{$noticia->id}}">
 
 	<div class="form-group">
 		<label>Título</label>
-		<input class="form-control" type="text" name="titulo" value="{{old('titulo')}}"/>
+		<input class="form-control" type="text" name="titulo" value="{{$noticia->titulo}}"/>
 	</div>
 	<div class="form-group">
 		<label>Conteúdo</label>
-		<textarea class="form-control" rows="15" name="conteudo">{{old('conteudo')}}</textarea>
+		<textarea class="form-control" rows="15" name="conteudo">{{$noticia->conteudo}}</textarea>
 	</div>
 	<div class="form-group">
 		<label>Categoria</label>
 		<select class="form-control" name="categoria_id">
 			<option value="">Selecione</option>
 			@foreach ($categorias as $categoria)
-			<option value="{{$categoria->id}}" @if (old('categoria_id') == $categoria->id) selected="selected" 
+			<option value="{{$categoria->id}}" @if ($noticia->categoria->id == $categoria->id) selected="selected" 
 			@endif
 			>
 			{{$categoria->descricao}}
@@ -43,7 +44,7 @@
 		<select class="form-control" name="autor_id">
 			<option value="">Selecione</option>
 			@foreach ($autores as $autor)
-			<option value="{{$autor->id}}" @if (old('autor_id') == $autor->id) selected="selected" 
+			<option value="{{$autor->id}}" @if ($noticia->autor->id == $autor->id) selected="selected" 
 			@endif
 			>
 			{{$autor->nome}}
@@ -53,7 +54,7 @@
 	</div>
 	<div class="form-group">
 		<label>Palavras-Chave</label>
-		<input class="form-control" type="text" name="palavras_chave" value="{{old('palavras_chave')}}" />
+		<input class="form-control" type="text" name="palavras_chave" value="{{$noticia->palavras_chave}}" />
 	</div>
 
 	<button type="submit" class="btn btn-primary">Salvar</button>

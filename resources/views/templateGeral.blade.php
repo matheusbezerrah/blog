@@ -10,7 +10,7 @@
 
   	<ul class="nav nav-pills navbar-right">
 	  <li><a href="{{action('NoticiaController@listaFeedNoticias')}}">Feed</a></li>
-	  <li ><a href="{{action('NoticiaController@novaNoticia')}}">Novo</a></li>
+	  <li><a href="{{action('NoticiaController@administrarNoticias')}}">Admin</a></li>
 	</ul>
 
     @yield('conteudo')

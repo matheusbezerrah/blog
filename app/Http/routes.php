@@ -17,6 +17,14 @@ Route::get('/feed', 'NoticiaController@listaFeedNoticias');
 
 Route::get('/feed/noticia/{id}', 'NoticiaController@findNoticia');
 
-Route::get('/noticia/novo', 'NoticiaController@novaNoticia');
+Route::get('/administrador/noticia/novo', 'NoticiaController@novaNoticia');
 
-Route::post('/noticia/adiciona', 'NoticiaController@adicionaNoticia');
+Route::post('/administrador/noticia/adiciona', 'NoticiaController@adicionaNoticia');
+
+Route::get('/administrador/noticia/remove/{id}','NoticiaController@removeNoticia');
+
+Route::get('/administrador/noticia/atualiza/{id}','NoticiaController@atualizaNoticia');
+
+Route::post('/administrador/noticia/atualizaForm','NoticiaController@atualizaFormNoticia');
+
+Route::get('/administrador','NoticiaController@administrarNoticias');
